@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": false,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "module": "ES2022",
+        "types": [
+            "node",
+            "@wdio/types",
+            "@wdio/globals/types",
+            "expect-webdriverio",
+            "@wdio/mocha-framework"
+        ],
+        "target": "es2022"
+    }
+}
