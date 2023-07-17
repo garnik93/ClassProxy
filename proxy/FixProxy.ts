@@ -19,13 +19,12 @@ export default function proxy<T>(pageObject: T): Chainable<T> {
         return function (...args) {
           const result = target[prop](...args)
           if (isPromise(result)) {
-            result.then((result: any) => {
+            const promise = Promise.resolve(result)
+            promise.then((result: any) => {
               // Дополнительная обработка успешного выполнения
               console.log('Дополнительная обработка успешного выполнения:', result);
               if (result !== undefined) {
                 return result;
-              } else {
-                return chainable
               }
             })
             .catch((error: any) => {
@@ -36,21 +35,6 @@ export default function proxy<T>(pageObject: T): Chainable<T> {
           }
           return chainable
         };
-        // } else if (prop === 'then' || prop === 'catch') {
-        //   return async function (onResolve, onReject) {
-        //     const handlerCatch = prop === 'catch' ? onResolve : onReject
-        //     proxyResult = await proxyResult.catch((error) => ({
-        //       _this_is_internal_proxy_error: true,
-        //       error
-        //     }))
-        //
-        //     if (proxyResult && proxyResult._this_is_internal_proxy_error) {
-        //       return handlerCatch(proxyResult)
-        //     }
-        //
-        //     const rePromised = Promise.resolve(proxyResult)
-        //     return rePromised[prop].call(rePromised, onResolve, onReject)
-        //   }
       }
     }
   })
