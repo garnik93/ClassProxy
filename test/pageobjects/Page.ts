@@ -1,4 +1,4 @@
-// import {browser} from "@wdio/globals";
+import {browser} from "@wdio/globals";
 
 export default class Page {
   public async open(path: string) {
