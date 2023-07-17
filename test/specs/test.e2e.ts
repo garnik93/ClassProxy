@@ -2,7 +2,7 @@
  * test with page objects
  */
 import AbTestPage from '../pageobjects/AbTestPage.ts'
-import proxyPageObject from "../pageobjects/Proxy.ts";
+import proxyPageObject from "../../proxy/Proxy.ts";
 
 describe('My Login application', () => {
 
@@ -16,9 +16,13 @@ describe('My Login application', () => {
         '(e.g. a user action such as a click-through).'
 
     it('should login with valid credentials', async () => {
-        await proxy
-        .open()
-        .checkParTextElementToHaveText(text)
+
+        await AbTestPage.open()
+        await AbTestPage.checkParTextElementToHaveText(text)
+
+        // await proxy
+        // .open()
+        // .checkParTextElementToHaveText(text)
     })
 })
 

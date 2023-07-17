@@ -3,19 +3,17 @@ import Page from "./Page.ts";
 
 class AbTestPage extends Page {
 
-    get parTextElement() {
-        return $('.example p')
-    }
+  get parTextElement() {
+    return $('.example p')
+  }
 
-    async open () {
-        await super.open('abtest')
-        return this
-    }
+  async open() {
+    await super.open('abtest')
+  }
 
-    async checkParTextElementToHaveText(text: string): Promise<any> {
-        await expect(this.parTextElement).toHaveText(text)
-        return this
-    }
+  async checkParTextElementToHaveText(text: string): Promise<any> {
+    await expect(this.parTextElement).toHaveText(text)
+  }
 }
 
 export default new AbTestPage()

@@ -23,16 +23,9 @@ export default function proxyPageObject<T>(pageObject: T): Chainable<T> {
         }
       }
 
-      if (!isFunction(pageObject[propName]) &&
-          !isAsyncFunction(pageObject[propName]) &&
-          !isPromise(proxyResult)
-          && pageObject[propName]
-      ) {
+      if (!isFunction(pageObject[propName]) && !isAsyncFunction(pageObject[propName]) && !isPromise(proxyResult) && pageObject[propName]) {
         return proxyResult.then(() => pageObject[propName])
-      } else if (isFunction(pageObject[propName]) ||
-          isAsyncFunction(pageObject[propName]) &&
-          isPromise(pageObject[propName])
-      ) {
+      } else if (isFunction(pageObject[propName]) || isAsyncFunction(pageObject[propName]) && isPromise(pageObject[propName])) {
         return async function (...args) {
           async function handler() {
             await proxyResult;
@@ -42,9 +35,7 @@ export default function proxyPageObject<T>(pageObject: T): Chainable<T> {
           proxyResult = await handler()
           return chainable;
         }
-      } else if (isAsyncFunction(pageObject[propName]) &&
-          !isPromise(proxyResult)
-      ) {
+      } else if (isAsyncFunction(pageObject[propName]) && !isPromise(proxyResult)) {
         return async function (...args) {
           const originalMethod = pageObject[propName];
 
@@ -68,6 +59,11 @@ export default function proxyPageObject<T>(pageObject: T): Chainable<T> {
             return handlerCatch(proxyResult)
           }
 
+          const rePromised = Promise.resolve(proxyResult)
+          return rePromised[propName].call(rePromised, onResolve, onReject)
+        }
+      } else if ((propName === 'then' || propName === 'catch') && !isPromise(proxyResult)) {
+        return async function (onResolve, onReject) {
           const rePromised = Promise.resolve(proxyResult)
           return rePromised[propName].call(rePromised, onResolve, onReject)
         }

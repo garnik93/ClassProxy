@@ -1,9 +1,7 @@
-import {browser} from "@wdio/globals";
+// import {browser} from "@wdio/globals";
 
 export default class Page {
-  private url = `https://the-internet.herokuapp.com/`
-
   public async open(path: string) {
-    return browser.url(`${this.url}${path}`)
+    return browser.url(`https://the-internet.herokuapp.com/${path}`)
   }
 }
