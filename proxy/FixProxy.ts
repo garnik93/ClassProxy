@@ -14,7 +14,12 @@ type Chainable<T> = {
 
 export default function proxy<T>(pageObject: T): Chainable<T> {
   const chainable = new Proxy(pageObject, {
-    get(target, propName, receiver) {
+    apply(target: T, thisArg: any, argArray: any[]): any {
+      const result = target[thisArg](argArray)
+      console.log(result)
+    },
+
+    get(target, propName) {
       if (typeof target[propName] === 'function') {
         return function (...args) {
           const result = target[propName](args)
