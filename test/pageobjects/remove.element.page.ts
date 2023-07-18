@@ -17,7 +17,6 @@ class AddRemoveElementsPage extends Page {
 
   async addNewElement() {
     await this.addNewElementForCount(1)
-
   }
 
   async addNewElementForCount(count: number) {

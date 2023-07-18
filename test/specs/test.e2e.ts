@@ -1,4 +1,4 @@
-import {isAsyncFunction, isPromise} from "sat-utils";
+// import {isAsyncFunction, isPromise} from "sat-utils";
 import RemoveElementPage from "../pageobjects/remove.element.page.ts";
 import proxy from "../../proxy/FixProxy.ts";
 
@@ -56,6 +56,11 @@ describe('My Login application', () => {
   it('should login with valid credentials', async () => {
 
     const page = proxy(RemoveElementPage)
+
+    // await RemoveElementPage.addNewElement()
+    // await RemoveElementPage.deleteElement()
+    // await RemoveElementPage.addNewElementForCount(10)
+    // await RemoveElementPage.deleteElementForCount(5)
 
     await page
     .open()
