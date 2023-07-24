@@ -1,18 +1,7 @@
-// import {isAsyncFunction, isPromise} from "sat-utils";
-import RemoveElementPage from "../pageobjects/remove.element.page.ts";
-import proxy from "../../proxy/FixProxy.ts";
-
-type AsyncMethodNames<T> = {
-  [K in keyof T]: T[K] extends (...args: any[]) => Promise<any> ? K : never;
-}[keyof T];
-
-type AsyncMethods<T> = Pick<T, AsyncMethodNames<T>>;
-
-type Chainable<T> = {
-  [K in keyof AsyncMethods<T>]: (...args: Parameters<T[K]>) => Chainable<T>;
-} & {
-  end: () => T;
-};
+import Agent from "../../utils/Agent.ts";
+// import {isAsyncFunction, isFunction, isPromise} from "sat-utils";
+// import proxyPageObject from "../../proxy/Proxy.ts";
+// import proxy from "../../proxy/FixProxy.ts";
 
 // function proxy<T>(pageObject: T): Chainable<T> {
 //   const chainable = new Proxy(pageObject, {
@@ -44,8 +33,6 @@ type Chainable<T> = {
 
 describe('My Login application', () => {
 
-  // const proxy = proxyPageObject(AbTestPage)
-
   const text: string = 'Also known as split testing. ' +
       'This is a way in which businesses are able to ' +
       'simultaneously test and learn different versions ' +
@@ -55,26 +42,18 @@ describe('My Login application', () => {
 
   it('should login with valid credentials', async () => {
 
-    const page = proxy(RemoveElementPage)
+    // Agent.onAbTestPage()
 
-    // await RemoveElementPage.addNewElement()
-    // await RemoveElementPage.deleteElement()
-    // await RemoveElementPage.addNewElementForCount(10)
-    // await RemoveElementPage.deleteElementForCount(5)
 
-    await page
-    .open()
+    await Agent.onAbTestPage().open().checkParTextElementToHaveText(text)
+
+    await Agent.onAddRemoveElementsPage().open()
+
+    await Agent.onAddRemoveElementsPage()
     .addNewElement()
-    .deleteElement()
+    .deleteElement(0)
     .addNewElementForCount(10)
     .deleteElementForCount(5)
-
-    // await AbTestPage.open()
-    // await AbTestPage.checkParTextElementToHaveText(text)
-
-    // await proxy
-    // .open()
-    // .checkParTextElementToHaveText(text)
   })
 })
 
